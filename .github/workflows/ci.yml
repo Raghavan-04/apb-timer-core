@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    name: RTL Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Verilator Lint
+        uses: addnab/docker-run-action@v3
+        with:
+          image: verilator/verilator:latest
+          options: -v ${{ github.workspace }}:/work -w /work
+          run: |
+            grep -v '^uvm/' filelist.f | grep -v '^+incdir+uvm/' > .rtl_filelist.f
+            verilator --language 1800-2017 --lint-only -f .rtl_filelist.f --top-module apb_timer_wrapper
