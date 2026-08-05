@@ -21,20 +21,20 @@ module apb_timer_tb_top;
   apb_if   apb_vif   (pclk, presetn);
   timer_if timer_vif (pclk, presetn);
 
-  // Bind Functional Coverage module to DUT wrapper
+  // Bind Functional Coverage module to DUT wrapper using internal wrapper signals
   bind apb_timer_wrapper timer_cov u_timer_cov (
-    .clk         (clk),
-    .rst_n       (rst_n),
-    .timer_en    (ctrl_reg[0]),
-    .oneshot_en  (ctrl_reg[1]),
-    .pwm_en      (ctrl_reg[2]),
-    .prescaler   (ctrl_reg[31:16]),
-    .timer_val   (timer_val),
-    .reload_val  (reload_reg),
-    .compare_val (compare_reg),
-    .irq_en      (irq_en_reg[1:0]),
-    .irq_stat    (irq_stat_reg[1:0]),
-    .pwm_out     (pwm_out)
+    .clk         (i_timer_pclk),
+    .rst_n       (i_timer_presetn),
+    .timer_en    (w_timer_en),
+    .oneshot_en  (w_timer_oneshot),
+    .pwm_en      (w_timer_pwm_en),
+    .prescaler   (w_timer_prescaler),
+    .timer_val   (w_timer_val),
+    .reload_val  (w_timer_reload),
+    .compare_val (w_timer_compare),
+    .irq_en      (u_apb_if.r_irq_en[1:0]),
+    .irq_stat    (u_apb_if.r_irq_stat[1:0]),
+    .pwm_out     (o_timer_pwm)
   );
 
   // DUT instantiation

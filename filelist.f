@@ -16,4 +16,6 @@ rtl/apb_timer_wrapper.sv
 uvm/tb/apb_if.sv
 uvm/tb/timer_if.sv
 uvm/tb/apb_timer_uvm_pkg.sv
+uvm/tb/timer_sva.sv
+uvm/tb/timer_cov.sv
 uvm/tb/apb_timer_tb_top.sv
